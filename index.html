@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHSS Pandallur - Annual Examination Result 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 30%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .search-container {
+            margin: 2.5rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        #searchInput {
+            padding: 14px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 50px;
+            width: 65%;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        #searchInput:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        #searchButton {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(58, 12, 163, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #searchButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(58, 12, 163, 0.4);
+        }
+        
+        #searchButton:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(58, 12, 163, 0.4);
+        }
+        
+        .loading {
+            display: none;
+            margin: 2rem 0;
+        }
+        
+        .preparing-container {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .preparing-spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border: 8px solid rgba(67, 97, 238, 0.1);
+            border-top: 8px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1.8s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+            position: relative;
+        }
+        
+        .preparing-spinner::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 8px solid transparent;
+            border-top: 8px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 2.4s cubic-bezier(0.3, 0.6, 0.8, 0.4) infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .preparing-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .animated-dots::after {
+            content: '';
+            animation: dotAnimation 1.8s infinite steps(4);
+        }
+        
+        @keyframes dotAnimation {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+        }
+        
+        .progress-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            transition: width 0.4s ease;
+            box-shadow: 0 2px 10px rgba(67, 97, 238, 0.3);
+        }
+        
+        .result-container {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px dashed #e9ecef;
+            align-items: center;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 1rem;
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        
+        .status-pass {
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .status-fail {
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .new-search-btn {
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
+        }
+        
+        
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .action-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            color: #e11268;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .kite-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #f72585, #4361ee);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .footer-line {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: confettiFall 5s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(600px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #searchInput {
+                width: 90%;
+                margin-bottom: 12px;
+            }
+            
+            #searchButton {
+                width: 90%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PHSS Pandallur<br>Annual Examination Result May 2025</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Enter Admission Number..." autocomplete="off">
+            <button id="searchButton">Search</button>
+        </div>
+        
+        <div class="loading">
+            <div class="preparing-container">
+                <div class="preparing-spinner"></div>
+                <div class="preparing-text">Your Result is Preparing<span class="animated-dots"></span></div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>Loading</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="error" id="errorMessage" style="display: none;">
+            Student not found. Please check the admission number and try again.
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="result-item">
+                <span class="result-label">Admission No:</span>
+                <span class="result-value" id="adnoResult"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Name:</span>
+                <span class="result-value" id="nameResult"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Class:</span>
+                <span class="result-value" id="classResult"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Status:</span>
+                <span class="result-value" id="statusResult"></span>
+            </div>
+            
+            <div class="action-buttons" id="actionButtons">
+                <button class="action-button new-search-btn" id="newSearchBtn">Check Another Result</button>
+                
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-line"></div>
+            <div class="footer-content">
+                <div class="kite-icon"></div>
+                <span>Powered by Little kites PHSS Pandallur</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const resultContainer = document.getElementById('resultContainer');
+            const loading = document.querySelector('.loading');
+            const errorMessage = document.getElementById('errorMessage');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const newSearchBtn = document.getElementById('newSearchBtn');
+            const printBtn = document.getElementById('printBtn');
+            
+            // Replace with your Google Sheet URL
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ51oP4zpDNUpunGCUg9p7kcNmOh8qFGqQMrYxWqopq6FNBb_IqqwfP-zjjdIpCx1dn-0UC3wA3yBUf/pub?output=csv';
+            
+            function searchResult() {
+                const adno = searchInput.value.trim();
+                
+                if (!adno) {
+                    errorMessage.style.display = 'block';
+                    resultContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Reset UI
+                resultContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+                loading.style.display = 'block';
+                
+                // Animate progress bar
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 1;
+                    progressFill.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                }, 30);
+                
+                // Minimum preparation time (3 seconds)
+                setTimeout(() => {
+                    fetch(sheetUrl)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network error');
+                            return response.text();
+                        })
+                        .then(data => {
+                            const rows = data.split('\n');
+                            const headers = rows[0].split(',');
+                            
+                            for (let i = 1; i < rows.length; i++) {
+                                const rowData = rows[i].split(',');
+                                if (rowData.length === headers.length) {
+                                    const student = {};
+                                    for (let j = 0; j < headers.length; j++) {
+                                        student[headers[j].trim()] = rowData[j].trim();
+                                    }
+                                    
+                                    if (student.Adno === adno) {
+                                        loading.style.display = 'none';
+                                        
+                                        // Set results
+                                        document.getElementById('adnoResult').textContent = student.Adno;
+                                        document.getElementById('nameResult').textContent = student.Name;
+                                        document.getElementById('classResult').textContent = student.Class;
+                                        
+                                        // Add special class based on status
+                                        const statusElement = document.getElementById('statusResult');
+                                        statusElement.textContent = student.Status;
+                                        if (student.Status.toLowerCase() === 'pass') {
+                                            statusElement.classList.add('status-pass');
+                                        } else {
+                                            statusElement.classList.add('status-fail');
+                                        }
+                                        
+                                        // Show result with animation
+                                        resultContainer.style.display = 'block';
+                                        createConfetti();
+                                        return;
+                                    }
+                                }
+                            }
+                            
+                            // No student found
+                            loading.style.display = 'none';
+                            errorMessage.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            loading.style.display = 'none';
+                            errorMessage.style.display = 'block';
+                        });
+                }, 3000);
+            }
+            
+            function createConfetti() {
+                const colors = ['#4361ee', '#3a0ca3', '#f72585', '#4cc9f0', '#4895ef', '#b5179e'];
+                const container = document.querySelector('.container');
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                    
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }
+            
+           
+            
+            // Event listeners
+            searchButton.addEventListener('click', searchResult);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchResult();
+                }
+            });
+            
+            newSearchBtn.addEventListener('click', function() {
+                // Reset the form
+                searchInput.value = '';
+                resultContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // Reset progress bar
+                progressFill.style.width = '0%';
+                progressPercent.textContent = '0%';
+                
+                // Scroll back to search
+                searchInput.focus();
+            });
+        });
+    </script>
+</body>
+</html>
